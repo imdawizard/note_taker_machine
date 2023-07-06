@@ -11,7 +11,7 @@ app.get('/notes', (req, res) => {{
 
 //all other routes
 app.get("*", (req, res) => {
-    res.sendFile(__dirname + '/public/notes.html');
+    res.sendFile(__dirname + '/public/404.html');
 });
 
 //listens on port 3001 and logs confirmation
