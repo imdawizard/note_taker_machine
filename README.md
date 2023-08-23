@@ -1,5 +1,5 @@
 # Note_taker_machine
-The project for week 11---Creating not taker that uses express.js back end to save and retireve notes.
+The project for week 11---A note taker application that uses express.js back end to save and retireve notes.
 
 ## Table of Contents
  - [Installation](#installation)
@@ -36,11 +36,3 @@ For any questions, please contact me:
 GitHub: [imdawizard](https://github.com/imdawizard)
 
 Email: nate.is.cool.yeah@gmail.com
-
-
-
-Thanks for submitting the assignment. You’ve got some good code here, but more work is needed to meet the challenge requirements. You submitted a code repo link, but no deployed link, costing you points for the link and deployment.
-
-Unfortunately, in its current state, the app doesn't allow users to create, save, and view notes. Your code repo has a unique name, proper file structure, detailed code comments, and descriptive commits, but its README lacks a screenshot and a deployed link.
-
-Be sure to check in with your Instructional Staff about your progress and feel free to take advantage of the Tutors, Learning Assistants, and other resources available to you with the course. -CG MM
