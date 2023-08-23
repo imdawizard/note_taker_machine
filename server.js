@@ -2,6 +2,7 @@ const express = require("express");
 const path = require('path');
 const app = express();
 const fs = require('fs');
+const { v4: uuidv4 } = require('uuid');
 
 //serve static files from the public directory
 app.use(express.static('public'));
@@ -12,18 +13,28 @@ app.use(express.urlencoded({ extended: true}));
 app.get('/', (req, res) => 
 res.sendFile(path.join(__dirname, '/public/index.html')))
 
-app.get('/api/notes', (req, res) => {
+app.get('/notes', (req, res) => {
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Error in reading the database'});
+            return;
+        }
+
+        const notes = JSON.parse(data);
+    })
     res.sendFile(__dirname + '/public/notes.html');
 });
 
 app.get('/api/notes', (req, res) => {
-    res.json(`${req.method} request received to get notes`)
-    console.info(`${req.method} request received to get reviews`);
-});
-
-//all other routes
-app.get("*", (req, res) => {
-    res.sendFile(__dirname + '/public/404.html');
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Failed to read notes from database :('})
+        }
+        const notes = JSON.parse(data);
+    res.status(200).json(notes);
+    });
 });
 
 app.post('/api/notes', (req, res) => {
@@ -33,6 +44,7 @@ app.post('/api/notes', (req, res) => {
 
     if (title && text) {
         const newNote = {
+            id: uuidv4(),
             title,
             text,
         };
@@ -72,6 +84,24 @@ app.post('/api/notes', (req, res) => {
 
 
 
+//all other routes
+app.get("*", (req, res) => {
+    res.sendFile(__dirname + '/public/404.html');
+});
+
+
+//listens on port 3001 and logs confirmation
+const port = 3001;
+app.listen(port, () => {
+    console.log(`Example app listening at http://localhost:${port} 🚀`)
+});
+
+
+
+
+
+
+
 
 
 
@@ -103,21 +133,8 @@ app.post('/api/notes', (req, res) => {
 //     });
 // });
 
-// app.get('/api/notes', (req, res) => {
-//     fs.readFile('./db/db.json', 'utf8', (err, data) => {
-//         if (err) {
-//             console.error(err);
-//             return res.status(500).json({ error: 'Failed to read notes from database :('})
-//         }
-//         const notes = JSON.parse(data);
-//     res.status(200).json(notes);
-//     });
-// });
-//listens on port 3001 and logs confirmation
-const port = 3001;
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port} 🚀`)
-});
+// 
+
 
 
 
