@@ -81,7 +81,30 @@ app.post('/api/notes', (req, res) => {
     }
 });
 
+app.delete('/api/notes/:id', (req, res) => {
+    const noteId = req.params.id;
 
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if(err) {
+            console.error(err);
+            res.status(500).json({ error: 'Error reading database'});
+            return;
+        }
+        let notes = JSON.parse(data);
+        notes = notes.filter((note) => note.id !== noteId);
+
+        fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (writeErr) => {
+            if(writeErr) {
+                console.error(writeErr);
+                res.status(500).json({ error: 'Error updating database'});
+                return;
+            }
+
+            console.log(`Note with ID ${noteId} deleted`);
+            res.status(200).json({ message: 'Note deleted successfully'});
+        });
+    });
+});
 
 
 //all other routes
